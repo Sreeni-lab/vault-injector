@@ -1,7 +1,3 @@
-Here's the Markdown README converted from your TSX code:
-
------
-
 # VaultInjector Documentation
 
 VaultInjector is a modern web-based tool designed to simplify the process of uploading secrets to HashiCorp Vault. It provides an intuitive interface for managing sensitive data while maintaining enterprise-grade security standards. This tool is the web evolution of a CLI utility, offering the same robust functionality with an enhanced user experience.
