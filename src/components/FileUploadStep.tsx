@@ -211,11 +211,11 @@ web-app,session_secret,your-session-secret-here`;
             </Button>
           </div>
 
-          <div className="bg-muted p-4 rounded-lg font-mono text-sm text-foreground">
+          <div className="bg-muted p-4 rounded-lg font-mono text-sm text-foreground overflow-x-auto">
             <div className="text-muted-foreground mb-2">Expected format:</div>
-            <div>SECRET_NAME,SECRET_KEY,SECRET_VALUE</div>
-            <div>api-service,database_url,postgresql://...</div>
-            <div>api-service,api_key,sk-1234567890abcdef</div>
+            <div className="whitespace-nowrap">SECRET_NAME,SECRET_KEY,SECRET_VALUE</div>
+            <div className="whitespace-nowrap">api-service,database_url,postgresql://...</div>
+            <div className="whitespace-nowrap">api-service,api_key,sk-1234567890abcdef</div>
           </div>
         </div>
       </Card>
