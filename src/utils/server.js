@@ -9,7 +9,7 @@ const PORT = 3000;
 
 // Configure CORS with options
 app.use(cors({
-  origin: ['http://localhost:8080', 'http://localhost:8081', 'http://localhost:8082', 'http://localhost:8083', 'http://localhost:8084', 'http://localhost:8085'],
+  origin: '*',  // In production, you might want to restrict this to your domain
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'X-Vault-Token', 'X-Vault-Namespace'],
   credentials: true,

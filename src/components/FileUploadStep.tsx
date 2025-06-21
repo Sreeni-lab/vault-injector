@@ -152,7 +152,7 @@ web-app,session_secret,your-session-secret-here`;
         const secretName = values[1];
 
         try {
-          const response = await axios.post('http://localhost:3000/api/vault/secrets', {
+          const response = await axios.post('/api/vault/secrets', {
             url: config.url,
             token: config.token,
             namespace: config.namespace,

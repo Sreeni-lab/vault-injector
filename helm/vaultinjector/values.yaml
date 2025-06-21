@@ -1,0 +1,61 @@
+# Common configurations
+nameOverride: ""
+fullnameOverride: ""
+
+# UI configurations
+ui:
+  name: vaultinjector-ui
+  replicaCount: 1
+  image:
+    repository: vault-injector-ui
+    tag: v1.0
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations: {}
+    host: vaultinjector.documentum-qe.net
+    path: /
+    pathType: ImplementationSpecific
+    tls: 
+      enabled: true
+      secretName: "tls-cert-secret"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# Server configurations
+server:
+  name: vaultinjector-server
+  replicaCount: 1
+  image:
+    repository: vault-injector-server
+    tag: v1.0
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3000
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# Common labels
+commonLabels: {}
+commonAnnotations: {} 

@@ -1,7 +1,7 @@
 // VaultProxy.ts
 import axios from 'axios';
 
-const PROXY_URL = 'http://localhost:3000/api';
+const PROXY_URL = '/api';
 
 export interface VaultAuthResponse {
   success: boolean;

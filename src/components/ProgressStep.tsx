@@ -18,7 +18,7 @@ interface UploadResult {
   message?: string;
 }
 
-const PROXY_URL = 'http://localhost:3000/api';
+const PROXY_URL = '/api';
 
 export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => {
   const [isUploading, setIsUploading] = useState(false);
