@@ -45,36 +45,36 @@ export const ReadMe = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Header */}
-            <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container flex h-14 items-center">
-                    <div className="flex items-center space-x-4">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => navigate('/')}
-                            className="flex items-center"
+            <header className="z-20 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                <div className="container mx-auto px-4 py-4">
+                    <div className="flex items-center justify-between">
+                        <a
+                            href="/"
+                            onClick={e => {
+                                e.preventDefault();
+                                if (window.location.pathname === '/') {
+                                    window.location.href = '/';
+                                } else {
+                                    navigate('/');
+                                }
+                            }}
+                            className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
                         >
-                            <ChevronLeft className="h-4 w-4 mr-2" />
-                            Back to App
-                        </Button>
-                    </div>
-                    <div className="flex items-center ml-auto space-x-4">
-                        <ThemeToggle />
+                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                <Shield className="w-6 h-6 text-white" />
+                            </div>
+                            <span className="text-xl font-bold text-foreground">VaultInjector</span>
+                        </a>
+                        <div className="flex items-center space-x-4">
+                            <ThemeToggle />
+                        </div>
                     </div>
                 </div>
             </header>
 
             <div className="flex flex-1 relative">
                 {/* Sidebar */}
-                <aside className={`fixed md:static inset-y-0 left-0 z-20 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} transition-transform duration-300 ease-in-out ${isNavOpen ? 'w-64' : 'w-0 md:w-16'} bg-background border-r flex flex-col`}>
-                    <div className="p-4 border-b flex items-center">
-                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                            <Shield className="w-4 h-4 text-white" />
-                        </div>
-                        <span className={`font-semibold text-lg ml-2 ${isNavOpen ? 'opacity-100' : 'opacity-0 md:opacity-0'} transition-opacity duration-300`}>
-                            VaultInjector
-                        </span>
-                    </div>
+                <aside className={`fixed md:static inset-y-0 left-0 z-40 transform ${isNavOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} transition-transform duration-300 ease-in-out ${isNavOpen ? 'w-64' : 'w-0 md:w-16'} bg-background border-r flex flex-col`}>
                     <ScrollArea className="flex-1 py-4">
                         <div className="space-y-1 px-2">
                             {sections.map((section) => (
@@ -110,7 +110,7 @@ export const ReadMe = () => {
                 {/* Overlay for mobile */}
                 {isNavOpen && (
                     <div
-                        className="fixed inset-0 bg-black/50 z-10 md:hidden"
+                        className="fixed inset-0 bg-black/50 z-30 md:hidden"
                         onClick={() => setIsNavOpen(false)}
                     />
                 )}
