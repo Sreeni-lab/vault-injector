@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <ThemeProvider defaultTheme="light" storageKey="vault-secrets-theme">
+  <ThemeProvider defaultTheme="dark" storageKey="vault-secrets-theme">
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
