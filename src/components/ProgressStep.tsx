@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, AlertCircle, Loader2, RefreshCw, Download } from "lucide-react";
+import { CheckCircle, AlertCircle, Loader2, RefreshCw, Download, Eye, EyeOff } from "lucide-react";
 import { VaultConfig, SecretData } from "@/pages/Index";
 import { toast } from "sonner";
 
@@ -16,6 +16,12 @@ interface UploadResult {
   secretName: string;
   status: 'pending' | 'success' | 'error';
   message?: string;
+  fullPath?: string;
+  dateTime?: string;
+  keyNames?: string;
+  namespace?: string;
+  vaultUrl?: string;
+  configuredPath?: string;
 }
 
 const PROXY_URL = '/api';
@@ -25,6 +31,7 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState<UploadResult[]>([]);
   const [isComplete, setIsComplete] = useState(false);
+  const [showSecrets, setShowSecrets] = useState(false);
 
   useEffect(() => {
     // Initialize results
@@ -63,6 +70,12 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
     let newResults = [...results];
 
     for (const secretName of secretNames) {
+      const fullPath = `${config.secretsPath.replace(/\/$/, '')}/${secretName}`;
+      const dateTime = new Date().toLocaleString();
+      const keyNames = Object.keys(groupedSecrets[secretName]).join(', ');
+      const namespace = config.namespace || '';
+      const vaultUrl = config.url || '';
+      const configuredPath = config.secretsPath || '';
       try {
         const response = await fetch(`${PROXY_URL}/vault/secrets`, {
           method: 'POST',
@@ -84,20 +97,50 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
         if (result.success) {
           newResults = newResults.map(r =>
             r.secretName === secretName
-              ? { ...r, status: 'success', message: 'Successfully stored' }
+              ? {
+                ...r,
+                status: 'success',
+                message: 'Successfully stored',
+                fullPath,
+                dateTime,
+                keyNames,
+                namespace,
+                vaultUrl,
+                configuredPath
+              }
               : r
           );
         } else {
           newResults = newResults.map(r =>
             r.secretName === secretName
-              ? { ...r, status: 'error', message: result.error || 'Failed to store secret' }
+              ? {
+                ...r,
+                status: 'error',
+                message: result.error || 'Failed to store secret',
+                fullPath,
+                dateTime,
+                keyNames,
+                namespace,
+                vaultUrl,
+                configuredPath
+              }
               : r
           );
         }
       } catch (error: any) {
         newResults = newResults.map(r =>
           r.secretName === secretName
-            ? { ...r, status: 'error', message: error.message }
+            ? {
+              ...r,
+              status: 'error',
+              message: error.message,
+              fullPath,
+              dateTime,
+              keyNames,
+              namespace,
+              vaultUrl,
+              configuredPath
+            }
             : r
         );
       }
@@ -126,7 +169,13 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
 
   const downloadReport = () => {
     const report = results.map(result => ({
-      'Secret Name': result.secretName,
+      'Full Path': result.fullPath || '',
+      'Secret Name': result.secretName || '',
+      'Key Names': result.keyNames || '',
+      'Namespace': result.namespace || '',
+      'Vault URL': result.vaultUrl || '',
+      'Configured Path': result.configuredPath || '',
+      'Date/Time': result.dateTime || '',
       'Status': result.status,
       'Message': result.message || ''
     }));
@@ -155,6 +204,9 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
   const errorCount = results.filter(r => r.status === 'error').length;
   const uniqueSecrets = results.length;
 
+  // Group secrets for review table
+  const groupedSecrets = groupSecretsByName(secrets);
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center mb-8">
@@ -162,8 +214,55 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
           <CheckCircle className="w-6 h-6 text-muted-foreground" />
         </div>
         <h2 className="text-2xl font-bold text-foreground mb-2">Upload Progress</h2>
-        <p className="text-muted-foreground">Uploading {uniqueSecrets} unique secrets to Vault</p>
+        <p className="text-muted-foreground">Uploading {Object.keys(groupedSecrets).length} unique secrets to Vault</p>
       </div>
+
+      {/* Review Table BEFORE upload starts */}
+      {!isUploading && !isComplete && (
+        <Card className="p-6 bg-card border-border">
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-semibold text-lg text-foreground">Review Secrets</span>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowSecrets((v) => !v)}
+              className="ml-2"
+            >
+              {showSecrets ? <EyeOff className="w-4 h-4 mr-1" /> : <Eye className="w-4 h-4 mr-1" />}
+              {showSecrets ? "Hide Values" : "Show Values"}
+            </Button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm border rounded-lg">
+              <thead>
+                <tr className="bg-muted">
+                  <th className="px-4 py-2 text-left font-semibold">Secret Name</th>
+                  <th className="px-4 py-2 text-left font-semibold">Key</th>
+                  <th className="px-4 py-2 text-left font-semibold">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(groupedSecrets).map(([secretName, keyValues]) =>
+                  Object.entries(keyValues).map(([key, value], idx) => (
+                    <tr key={secretName + key} className={idx % 2 === 0 ? "bg-background" : "bg-muted/30"}>
+                      <td className="px-4 py-2 font-mono text-foreground">{secretName}</td>
+                      <td className="px-4 py-2 font-mono text-foreground">{key}</td>
+                      <td className="px-4 py-2 font-mono">
+                        {showSecrets ? (
+                          <span className="text-foreground">{value}</span>
+                        ) : (
+                          <span className="text-muted-foreground">••••••••</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -187,16 +286,18 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
         </Card>
       </div>
 
-      {/* Progress Bar */}
-      <Card className="p-6 bg-card border-border">
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-foreground font-medium">Upload Progress</span>
-            <span className="text-muted-foreground">{Math.round(progress)}%</span>
+      {/* Progress Bar and Results List (only show after upload starts) */}
+      {(isUploading || isComplete) && (
+        <Card className="p-6 bg-card border-border">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-foreground font-medium">Upload Progress</span>
+              <span className="text-muted-foreground">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="h-2" />
           </div>
-          <Progress value={progress} className="h-2" />
-        </div>
-      </Card>
+        </Card>
+      )}
 
       {/* Results List */}
       <Card className="p-6 bg-card border-border">
@@ -270,6 +371,7 @@ export const ProgressStep = ({ config, secrets, onPrev }: ProgressStepProps) => 
           variant="outline"
           onClick={onPrev}
           className="border-border"
+          disabled={isUploading}
         >
           Back to File Upload
         </Button>
