@@ -22,10 +22,10 @@ VaultInjector is a modern web-based tool designed to simplify the process of upl
 ---
 ### Running Vault Injector Locally with Docker Compose
 
-1.**Clone the repository**
+1.  **Clone the repository**
 
     ```bash
-    git clone [https://github.com/Sreeni-lab/vault-injector.git](https://github.com/Sreeni-lab/vault-injector.git)
+    git clone https://github.com/Sreeni-lab/vault-injector.git
     cd vault-injector
     ```
 
