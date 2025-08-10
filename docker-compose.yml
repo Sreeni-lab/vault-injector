@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  vaultinjector-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:8080"
+    depends_on:
+      - vaultinjector-server
+    restart: unless-stopped

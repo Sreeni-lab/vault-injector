@@ -8,10 +8,56 @@ VaultInjector is a modern web-based tool designed to simplify the process of upl
   * Valid authentication credentials (Token or AppRole)
   * Proper permissions to store secrets
   * Secrets prepared in CSV format
+  * Docker and Docker Compose installed on your machine.  
+  * For installation guides:  
+    - [Docker](https://docs.docker.com/get-docker/)  
+    - [Docker Compose](https://docs.docker.com/compose/install/)
 
 [HashiCorp Vault Documentation](https://www.vaultproject.io/)
 
 -----
+
+## Installation Instructions
+
+---
+### Running Vault Injector Locally with Docker Compose
+
+1.**Clone the repository**
+
+    ```bash
+    git clone [https://github.com/Sreeni-lab/vault-injector.git](https://github.com/Sreeni-lab/vault-injector.git)
+    cd vault-injector
+    ```
+
+2.  **Build and start the services**
+
+    From the root of the repository, run the following command to build and start your services:
+
+    ```bash
+    docker-compose up --build -d
+    ```
+
+    This command will:
+    * Build the backend server image from `Dockerfile.server`.
+    * Build the frontend image from `Dockerfile.frontend`.
+    * Start both services with automatic restart enabled.
+
+---
+
+### Accessing the application
+
+* **Frontend UI**: Open your browser and navigate to `http://localhost:3000`.
+* **Backend API**: The API is accessible internally at `http://vaultinjector-server:8080` within the Docker network, or from your host machine at `http://localhost:8080`.
+
+---
+
+### Stopping the services
+
+To stop the containers gracefully, run the following command:
+
+```bash
+docker-compose down
+```
 
 ## Authentication
 
