@@ -6,7 +6,6 @@ Designed for DevOps and security teams, Vault Injector enables you to **automati
 
 Whether you're looking to **automate Vault secret injection** or **manage secrets dynamically**, Vault Injector offers a lightweight, extensible solution to improve your DevSecOps workflows.
 
----
 
 ## Key Features
 
@@ -18,7 +17,6 @@ Whether you're looking to **automate Vault secret injection** or **manage secret
 - **CORS-enabled API and Web UI** — Easy integration and interaction with frontend and backend services  
 - **Comprehensive Error Handling** — Detailed validation and error reporting for smooth operations  
 
----
 
 ### Prerequisites
 
@@ -33,11 +31,10 @@ Whether you're looking to **automate Vault secret injection** or **manage secret
 
 [HashiCorp Vault Documentation](https://www.vaultproject.io/)
 
------
+---
 
 ## Installation Instructions
 
----
 ### Running Vault Injector Locally with Docker Compose
 
 Follow the steps below to build and run Vault Injector locally using Docker Compose.
@@ -62,14 +59,13 @@ Follow the steps below to build and run Vault Injector locally using Docker Comp
     * Build the frontend image from `Dockerfile.frontend`.
     * Start both services with automatic restart enabled.
 
----
+
 
 ### Accessing the application
 
 * **Frontend UI**: Open your browser and navigate to `http://localhost:3000`.
 * **Backend API**: The API is accessible internally at `http://vaultinjector-server:8080` within the Docker network, or from your host machine at `http://localhost:8080`.
 
----
 
 ### Stopping the services
 
