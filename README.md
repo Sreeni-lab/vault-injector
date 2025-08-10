@@ -1,6 +1,24 @@
-# VaultInjector Documentation
+# Vault Injector – Automatically Create and Manage Secrets in HashiCorp Vault
 
-VaultInjector is a modern web-based tool designed to simplify the process of uploading secrets to HashiCorp Vault. It provides an intuitive interface for managing sensitive data while maintaining enterprise-grade security standards. This tool is the web evolution of a CLI utility, offering the same robust functionality with an enhanced user experience.
+Vault Injector is an open-source modern web-based **secrets automation tool** that simplifies **injecting and managing secrets in HashiCorp Vault** for containerized environments like Kubernetes and Docker. 
+
+Designed for DevOps and security teams, Vault Injector enables you to **automatically create Vault secrets** based on your deployment metadata and securely inject them into your applications. This eliminates the need for manual secret management, enhances security posture, and integrates smoothly with Kubernetes pods or Docker containers.
+
+Whether you're looking to **automate Vault secret injection** or **manage secrets dynamically**, Vault Injector offers a lightweight, extensible solution to improve your DevSecOps workflows.
+
+---
+
+## Key Features
+
+- **Automated Vault Secret Creation** — Generate and inject secrets into Vault dynamically based on deployment data  
+- **Supports Kubernetes and Docker** — Works seamlessly in containerized environments  
+- **Secure Authentication Methods** — Token and AppRole authentication with fine-grained access control  
+- **Bulk Upload via CSV** — Manage multiple secrets efficiently with CSV file uploads  
+- **KV Secrets Engine v2 Support** — Full compatibility with Vault’s versioned key-value store  
+- **CORS-enabled API and Web UI** — Easy integration and interaction with frontend and backend services  
+- **Comprehensive Error Handling** — Detailed validation and error reporting for smooth operations  
+
+---
 
 ### Prerequisites
 
@@ -21,6 +39,8 @@ VaultInjector is a modern web-based tool designed to simplify the process of upl
 
 ---
 ### Running Vault Injector Locally with Docker Compose
+
+Follow the steps below to build and run Vault Injector locally using Docker Compose.
 
 1.  **Clone the repository**
 
@@ -203,9 +223,3 @@ AdminPassword,AdminPassword,YEY22h@t4S=
       * Verify no empty cells exist
       * Ensure no commas in values
       * Validate row formatting
-
-### Additional Resources
-
-  * [HashiCorp Vault Documentation](https://www.vaultproject.io/docs)
-  * [Vault API Documentation](https://www.vaultproject.io/api-docs)
-  * [Vault Enterprise Features](https://www.vaultproject.io/docs/enterprise)
